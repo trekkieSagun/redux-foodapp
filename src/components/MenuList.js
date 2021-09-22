@@ -14,10 +14,8 @@ class MenuList extends Component {
     super(props);
     this.state = {
       addClicked: false,
-
       toggleEdit: false,
       editingIndex: null,
-
       calculator: false,
       total: null,
     };
@@ -37,8 +35,11 @@ class MenuList extends Component {
       image: this.props.image,
       quantity: this.props.quantity,
     });
-    debugger;
+
     this.props.setMenuList(newMenuList);
+    this.setState({
+      addClicked: false,
+    });
   };
 
   handleAdd = () => {
@@ -58,10 +59,10 @@ class MenuList extends Component {
     const confirmed = window.confirm("Do you want to delete this?");
 
     if (confirmed) {
-      const newMenu = this.state.menuList.filter(
+      const newMenu = this.props.menuList.filter(
         (item, index) => index !== menuIndex
       );
-      this.setState({ menuList: newMenu });
+      this.props.setMenuList(newMenu);
     }
   };
 
@@ -77,18 +78,14 @@ class MenuList extends Component {
 
   handleEditingData = (e) => {
     const { name, value } = e.target;
-    const editingMenu = { ...this.props.editingMenu };
-
-    this.props.changeEditState({ name: editingMenu[name], value });
+    this.props.changeEditState({ name: name, value });
   };
 
   handleImageEdit = (e) => {
-    const editingMenu = {
-      ...this.props.editingMenu,
-      image: URL.createObjectURL(e.target.files[0]),
-    };
-
-    this.setState({ editingMenu });
+    this.props.changeEditState({
+      name: "image",
+      value: URL.createObjectURL(e.target.files[0]),
+    });
   };
 
   submitEditting = (e, menuIndex) => {
@@ -99,14 +96,9 @@ class MenuList extends Component {
       price: this.props.editingMenu.price,
       image: this.props.editingMenu.image,
     };
+    this.props.setMenuList(newMenuList);
     this.setState({
-      menuList: newMenuList,
       toggleEdit: false,
-      editingMenu: {
-        foodname: null,
-        price: null,
-        image: null,
-      },
     });
   };
 
@@ -116,35 +108,31 @@ class MenuList extends Component {
     });
   };
 
-  handleIncrement = (index) => {
-    const newMenu = [...this.state.menuList];
+  handleIncrement = (e, index) => {
+    const newMenu = [...this.props.menuList];
 
     newMenu[index] = {
       ...newMenu[index],
       quantity: newMenu[index].quantity + 1,
     };
 
-    this.setState({
-      menuList: newMenu,
-    });
+    this.props.setMenuList(newMenu);
   };
 
-  handleDecrement = (index) => {
-    const newMenu = [...this.state.menuList];
+  handleDecrement = (e, index) => {
+    const newMenu = [...this.props.menuList];
 
     newMenu[index] = {
       ...newMenu[index],
       quantity: newMenu[index].quantity - 1,
     };
 
-    this.setState({
-      menuList: newMenu,
-    });
+    this.props.setMenuList(newMenu);
   };
 
   handleCalculate = () => {
     let total = 0;
-    this.state.menuList.forEach((item, index) => {
+    this.props.menuList.forEach((item, index) => {
       total = item.price * item.quantity + total;
     });
 
@@ -279,6 +267,7 @@ const mapStateToProps = (state, props) => ({
   foodname: state.foodname,
   price: state.price,
   image: state.image,
+  quantity: state.quantity,
 });
 
 const mapDispatchToProps = (dispatch) => {

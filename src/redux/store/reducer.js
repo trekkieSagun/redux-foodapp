@@ -50,9 +50,18 @@ const reducer = (state = initialState, action) => {
 
     case MODIFYEDIT:
       return {
-        ...state.editingMenu,
-        [action.payload.name]: action.payload.value,
+        ...state,
+        editingMenu: {
+          ...state.editingMenu,
+          [action.payload.name]: action.payload.value,
+        },
       };
+
+    // case DELETE:
+    //   const newState = { ...state };
+    //   newState.menuList.splice(action.payload.index, 1);
+    //   return newState;
+
     default:
       return state;
   }

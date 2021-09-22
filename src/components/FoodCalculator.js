@@ -22,14 +22,14 @@ class FoodCalculator extends Component {
                     <td>
                       <button
                         className="btn btn-warning btn-action"
-                        onClick={() => this.props.handleIncrement(index)}
+                        onClick={(e) => this.props.handleIncrement(e, index)}
                       >
                         +
                       </button>
                       <span>{item.quantity}</span>
                       <button
                         className="btn btn-danger btn-action"
-                        onClick={() => this.props.handleDecrement(index)}
+                        onClick={(e) => this.props.handleDecrement(e, index)}
                         disabled={item.quantity === 0}
                       >
                         -

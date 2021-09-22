@@ -1,4 +1,4 @@
-import { ADDMENU, EDITITEM, LOADMENU, MODIFY, MODIFYEDIT } from "../actions";
+import { EDITITEM, LOADMENU, MODIFY, MODIFYEDIT } from "../actions";
 
 export const LOADMENULIST = (menuList) => {
   return {
@@ -27,3 +27,17 @@ export const MODIFYEDITSTATE = (obj) => {
     payload: obj,
   };
 };
+
+// export const ADDQUANTITY = () => {
+//   return {
+//     type: CALCULATEADD,
+//     value: 1,
+//   };
+// };
+
+// export const REMOVEQUANTITY = () => {
+//   return {
+//     type: CALCULATEADD,
+//     value: 1,
+//   };
+// };
